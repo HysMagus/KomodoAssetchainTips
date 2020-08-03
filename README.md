@@ -1,6 +1,6 @@
-# XZCtips - Telegram XZC Tipbot.
+# THCTips - Telegram XZC Tipbot.
  
-#### XZC crypto currency tipbot for [Telegram](https://telegram.org)
+#### THC crypto currency tipbot for [Telegram](https://telegram.org)
 
 
 ## Dependencies 
