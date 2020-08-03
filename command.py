@@ -107,8 +107,8 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
         if  text == '/deposit' or text == '/deposit@hempcointipbot':
             if 'username' in current_updates['message']['from']:
                 user = current_updates['message']['from']['username']
-                address = "/usr/bin/komodo-cli -ac_name=THC"
-                result = subprocess.run([address,"getaccountaddress",user],stdout=subprocess.PIPE)
+                address = "/usr/bin/komodo-cli"
+                result = subprocess.run([address,"-ac_name=THC","getaccountaddress",user],stdout=subprocess.PIPE)
                 clean = (result.stdout.strip()).decode("utf-8")
                 bot.send_message(group_id, f'@{user} your depositing address is: {clean}')
                 bot.get_updates(offset = update_id+1)
@@ -133,8 +133,8 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
                 address = ''.join(str(e) for e in address)
                 target = target.replace(target[:35], '')
                 amount = float(target)
-                core = "/usr/bin/komodo-cli -ac_name=THC"
-                result = subprocess.run([core,"getbalance",user],stdout=subprocess.PIPE)
+                core = "/usr/bin/komodo-cli"
+                result = subprocess.run([core,"-ac_name=THC","getbalance",user],stdout=subprocess.PIPE)
                 clean = (result.stdout.strip()).decode("utf-8")
                 balance = float(clean)
                 if balance < amount:
@@ -160,8 +160,8 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
                 price = re.sub("[^0-9^.]", "", price)
                 price = float(price)
                 user = current_updates['message']['from']['username']
-                core = "/usr/bin/komodo-cli -ac_name=THC"
-                result = subprocess.run([core,"getbalance",user],stdout=subprocess.PIPE)
+                core = "/usr/bin/komodo-cli"
+                result = subprocess.run([core,"-ac_name=THC","getbalance",user],stdout=subprocess.PIPE)
                 clean = (result.stdout.strip()).decode("utf-8")
                 balance  = float(clean)
                 fiat_balance = balance * price
@@ -208,8 +208,8 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
                 elif "@" in target:
                     target = target[1:]
                     user = current_updates['message']['from']['username']
-                    core = "/usr/bin/komodo-cli -ac_name=THC"
-                    result = subprocess.run([core,"getbalance",user],stdout=subprocess.PIPE)
+                    core = "/usr/bin/komodo-cli"
+                    result = subprocess.run([core,"-ac_name=THC","getbalance",user],stdout=subprocess.PIPE)
                     balance = float((result.stdout.strip()).decode("utf-8"))
                     amount = float(amount)
                     if balance < amount:
