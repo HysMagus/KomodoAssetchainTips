@@ -143,7 +143,7 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
                 else:
                     amount = str(amount)
                     tx = subprocess.run([core,"sendfrom",user,address,amount],stdout=subprocess.PIPE)
-                    bot.send_message(group_id, f'@{user} has successfully withdrew to address: {address} of {amount} XZC')
+                    bot.send_message(group_id, f'@{user} has successfully withdrew to address: {address} of {amount} THC')
                     bot.get_updates(offset = update_id+1)
             else:
                 bot.send_message(group_id, 'Please set a username from the Telegram Settings')
