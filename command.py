@@ -77,17 +77,17 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
     global offset
     text = current_updates['message']['text']
     try:
-        if text == '/start' or text == '/help' or text == '/help@hempcointipbot':
+        if text == '/start' or text == '/help' or text == '/help@coinnametipbot':
             bot.send_message(group_id, ("The following commands are at your disposal:\n/hi\n/moon\n/help\n/commands\n/price\n/marketcap\n/balance\n/deposit\n/withdraw\n/tip"))
             bot.get_updates(offset = update_id+1)
 
-        if  text == '/hi' or text == '/hi@hempcointipbot':
+        if  text == '/hi' or text == '/hi@coinnametipbot':
             first = current_updates['message']['from']['first_name']
             bot.send_message(group_id, f'Hello {first}, How are you doing today?')
             bot.get_updates(offset = update_id+1)
 
-        if  text == '/price' or text == '/price@hempcointipbot':
-            quote_page = requests.get('https://www.worldcoinindex.com/coin/hempcoin')
+        if  text == '/price' or text == '/price@coinnametipbot':
+            quote_page = requests.get('https://www.worldcoinindex.com/coin/coinname')
             strainer = SoupStrainer('div', attrs={'class': 'row mob-coin-table'})
             soup = BeautifulSoup(quote_page.content, 'html.parser', parse_only=strainer)
             name_box = soup.find('div', attrs={'class':'col-md-6 col-xs-6 coinprice'})
@@ -100,15 +100,15 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
             #soup = BeautifulSoup(quote_page.content, 'html.parser').text
             #btc = soup[80:]
             #sats = btc[:-2]
-            bot.send_message(group_id, f'hempcoin is valued at {price} Δ {percent}')
+            bot.send_message(group_id, f'coinname is valued at {price} Δ {percent}')
             bot.get_updates(offset = update_id+1)
         
 
-        if  text == '/deposit' or text == '/deposit@hempcointipbot':
+        if  text == '/deposit' or text == '/deposit@coinnametipbot':
             if 'username' in current_updates['message']['from']:
                 user = current_updates['message']['from']['username']
                 address = "/usr/bin/komodo-cli"
-                result = subprocess.run([address,"-ac_name=THC","getaccountaddress",user],stdout=subprocess.PIPE)
+                result = subprocess.run([address,"-ac_name=ACN","getaccountaddress",user],stdout=subprocess.PIPE)
                 clean = (result.stdout.strip()).decode("utf-8")
                 bot.send_message(group_id, f'@{user} your depositing address is: {clean}')
                 bot.get_updates(offset = update_id+1)
@@ -116,15 +116,15 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
                 bot.send_message(group_id, 'Please set a username from the Telegram Settings')
                 bot.get_updates(offset = update_id+1)
 
-        if  text == '/withdraw' or text == '/withdraw@hempcointipbot':
+        if  text == '/withdraw' or text == '/withdraw@coinnametipbot':
             bot.send_message(group_id, 'Wrong Format. Check /commands Send a Message Like this Please:\n\n/withdraw (your wallet address) (amount)\n\nexample:\n\n/withdraw a8ULhhDgfdSiXJhSZVdhb8EuDc6R3ogsaM 5')
             bot.get_updates(offset = update_id+1)
 
 
-        if '/withdraw' in text and len(text) > 9 or '/withdraw@hempcointipbot' in text and len(text) > 21:
+        if '/withdraw' in text and len(text) > 9 or '/withdraw@coinnametipbot' in text and len(text) > 21:
             if 'username' in current_updates['message']['from']:
                 user = current_updates['message']['from']['username']
-                if '/withdraw@hempcointipbot' in text:
+                if '/withdraw@coinnametipbot' in text:
                     target = text[22:]
                     address = target[:48]
                 else:
@@ -134,7 +134,7 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
                 target = target.replace(target[:35], '')
                 amount = float(target)
                 core = "/usr/bin/komodo-cli"
-                result = subprocess.run([core,"-ac_name=THC","getbalance",user],stdout=subprocess.PIPE)
+                result = subprocess.run([core,"-ac_name=ACN","getbalance",user],stdout=subprocess.PIPE)
                 clean = (result.stdout.strip()).decode("utf-8")
                 balance = float(clean)
                 if balance < amount:
@@ -143,15 +143,15 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
                 else:
                     amount = str(amount)
                     tx = subprocess.run([core,"sendfrom",user,address,amount],stdout=subprocess.PIPE)
-                    bot.send_message(group_id, f'@{user} has successfully withdrew to address: {address} of {amount} THC')
+                    bot.send_message(group_id, f'@{user} has successfully withdrew to address: {address} of {amount} ACN')
                     bot.get_updates(offset = update_id+1)
             else:
                 bot.send_message(group_id, 'Please set a username from the Telegram Settings')
                 bot.get_updates(offset = update_id+1)
         
-        if  text == '/balance' or text == '/balance@hempcointipbot':
+        if  text == '/balance' or text == '/balance@coinnametipbot':
             if 'username' in current_updates['message']['from']:
-                quote_page = requests.get('https://www.worldcoinindex.com/coin/hempcoin')
+                quote_page = requests.get('https://www.worldcoinindex.com/coin/coinname')
                 strainer = SoupStrainer('div', attrs={'class': 'row mob-coin-table'})
                 soup = BeautifulSoup(quote_page.content, 'html.parser', parse_only=strainer)
                 name_box = soup.find('div', attrs={'class':'col-md-6 col-xs-6 coinprice'})
@@ -161,41 +161,41 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
                 price = float(price)
                 user = current_updates['message']['from']['username']
                 core = "/usr/bin/komodo-cli"
-                result = subprocess.run([core,"-ac_name=THC","getbalance",user],stdout=subprocess.PIPE)
+                result = subprocess.run([core,"-ac_name=ACN","getbalance",user],stdout=subprocess.PIPE)
                 clean = (result.stdout.strip()).decode("utf-8")
                 balance  = float(clean)
                 fiat_balance = balance * price
                 fiat_balance = str(round(fiat_balance,3))
                 balance =  str(round(balance,3))
-                bot.send_message(group_id, f'@{user} your current balance is: {balance} Hempcoin ≈  ${fiat_balance}')
+                bot.send_message(group_id, f'@{user} your current balance is: {balance} coinname ≈  ${fiat_balance}')
                 bot.get_updates(offset = update_id+1)
             else:
                 bot.send_message(group_id, 'Please set a username from the Telegram Settings')
                 bot.get_updates(offset = update_id+1)
 
-        if  text == '/moon' or text == '/moon@hempcointipbot':
+        if  text == '/moon' or text == '/moon@coinnametipbot':
             bot.send_message(group_id, "Moon mission inbound!")
             bot.get_updates(offset = update_id+1)
 
-        if  text == '/marketcap' or text == '/marketcap@hempcointipbot':
-            quote_page = requests.get('https://www.worldcoinindex.com/coin/hempcoin')
+        if  text == '/marketcap' or text == '/marketcap@coinnametipbot':
+            quote_page = requests.get('https://www.worldcoinindex.com/coin/coinname')
             strainer = SoupStrainer('div', attrs={'class': 'row mob-coin-table'})
             soup = BeautifulSoup(quote_page.content, 'html.parser', parse_only=strainer)
             name_box = soup.find('div', attrs={'class':'col-md-6 col-xs-6 coin-marketcap'})
             name = name_box.text.replace("\n","")
             mc = re.sub(r'\n\s*\n', r'\n\n', name.strip(), flags=re.M)
-            bot.send_message(group_id, f"The current market cap of hempcoin is valued at {mc}")
+            bot.send_message(group_id, f"The current market cap of coinname is valued at {mc}")
             bot.get_updates(offset = update_id+1)
 
 
-        if text == '/tip' or text == '/tip@hempcointipbot':
+        if text == '/tip' or text == '/tip@coinnametipbot':
             bot.send_message(group_id, 'Wrong Format. Check /commands. Send the command like this\n\n /tip (username) (amount)\n\nexample\n\n /tip @Sakib0194 10')
             bot.get_updates(offset = update_id+1)
 
-        if '/tip' in text and len(text) > 4 or '/tip@hempcointipbot' in text and len(text) > 16:
+        if '/tip' in text and len(text) > 4 or '/tip@coinnametipbot' in text and len(text) > 16:
             if 'username' in current_updates['message']['from']:
                 user = current_updates['message']['from']['username']
-                if '/tip@hempcointipbot' in text:
+                if '/tip@coinnametipbot' in text:
                     target = text[17:]
                 else:
                     target = text[5:]
@@ -209,7 +209,7 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
                     target = target[1:]
                     user = current_updates['message']['from']['username']
                     core = "/usr/bin/komodo-cli"
-                    result = subprocess.run([core,"-ac_name=THC","getbalance",user],stdout=subprocess.PIPE)
+                    result = subprocess.run([core,"-ac_name=ACN","getbalance",user],stdout=subprocess.PIPE)
                     balance = float((result.stdout.strip()).decode("utf-8"))
                     amount = float(amount)
                     if balance < amount:
@@ -222,7 +222,7 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
                         balance = str(balance)
                         amount = str(amount) 
                         tx = subprocess.run([core,"move",user,target,amount],stdout=subprocess.PIPE)
-                        bot.send_message(group_id, f"@{user} tipped @{target} of {amount} hempcoin")
+                        bot.send_message(group_id, f"@{user} tipped @{target} of {amount} coinname")
                         bot.get_updates(offset = update_id+1)
                 else: 
                     bot.send_message(group_id, "Error that user is not applicable.")
@@ -231,10 +231,10 @@ def bot_message_handler(current_updates, update_id, sender_id, group_id, dict_ch
                 bot.send_message(group_id, 'Please set a username from the Telegram Settings')
                 bot.get_updates(offset = update_id+1)
 
-        if text == '/commands' or text == '/commands@hempcointipbot':
+        if text == '/commands' or text == '/commands@coinnametipbot':
             if 'username' in current_updates['message']['from']:
                 user = current_updates['message']['from']['username']
-                bot.send_message(group_id, "Initiating commands /tip & /withdraw have a specfic format,\n use them like so:" + "\n \n Parameters: \n user = target user to tip \n amount = amount of hempcoin to utilise \n address = hempcoin address to withdraw to \n \n Tipping format: \n /tip user amount \n \n Withdrawing format: \n /withdraw address amount")
+                bot.send_message(group_id, "Initiating commands /tip & /withdraw have a specfic format,\n use them like so:" + "\n \n Parameters: \n user = target user to tip \n amount = amount of coinname to utilise \n address = coinname address to withdraw to \n \n Tipping format: \n /tip user amount \n \n Withdrawing format: \n /withdraw address amount")
                 bot.get_updates(offset = update_id+1)
             else:
                 bot.send_message(group_id, 'Please set a username from the Telegram Settings')
@@ -264,8 +264,8 @@ balance - shows balance
 moon - to the moon
 help - available commands
 deposit - get deposit address
-price - shows hempcoin price
-marketcap - shows hempcoin marketcap
+price - shows coinname price
+marketcap - shows coinname marketcap
 hi - welcome message
 commands - shows how to use commands
 

@@ -1,4 +1,4 @@
-# THCTips - Telegram XZC Tipbot.
+# Assetchain Tips - Telegram Assetchain Tipbot.
  
 #### THC crypto currency tipbot for [Telegram](https://telegram.org)
 
@@ -18,6 +18,12 @@
 `git clone https://github.com/mrmikeo/XZCtips-telegram`
 
 * Setup a bot with the user @BotFather through PM on Telegram, after going through a setup you will be given a bot token. Edit the command.py file and replace the parameter 'BOT_TOKEN' with the one you just recieved. 
+
+* Bot Username should follow the format "CoinNameTipBot" (or replace CoinNameTipbot in the code with your bot username)
+
+* Find and Replace "ASN" in the code for your Assetchain ticker
+
+* find and replace CoinName in the code to your coin name
 
 *  Run the script 
 `python3 command.py`
