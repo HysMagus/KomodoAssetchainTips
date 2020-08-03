@@ -1,6 +1,6 @@
 # Assetchain Tips - Telegram Assetchain Tipbot.
  
-#### THC crypto currency tipbot for [Telegram](https://telegram.org)
+#### Assetchain crypto currency tipbot for [Telegram](https://telegram.org)
 
 
 ## Dependencies 
